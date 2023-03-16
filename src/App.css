@@ -1,3 +1,9 @@
 .App {
   text-align: center;
 }
+
+.Container {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}

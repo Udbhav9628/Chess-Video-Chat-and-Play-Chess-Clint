@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const socket = io("http://192.168.35.232:8000");
+const socket = io("http://192.168.113.232:8000");
 
 function App() {
   const classes = useStyles()
@@ -67,25 +67,6 @@ function App() {
 
   }, []);
 
-  const AnswerCall = () => {
-    console.log('in This');
-
-    setcallAccepted(true);
-    const peer = new Peer({ initiator: false, trickle: false, stream: Streams });
-
-    peer.on("signal", (data) => {
-      socket.emit("answerCall", { signal: data, to: call.from });
-    });
-
-    peer.on("stream", (currentStram) => {
-      userVideo.current.srcObject = currentStram;
-    });
-
-    peer.signal(call.signalData);
-
-    currentPeerConn.current = peer;
-  };
-
   const CallUser = (id: string) => {
     const peer = new Peer({ initiator: true, trickle: false, stream: Streams });
 
@@ -93,13 +74,30 @@ function App() {
       socket.emit("callUser", { userTocall: id, signalData: data, from: Me, name });
     });
 
+    socket.on("callAccepted", (signal) => {
+      setcallAccepted(true);
+      peer.signal(signal);
+    });
+
     peer.on("stream", (currentStram) => {
       userVideo.current.srcObject = currentStram;
     });
 
-    socket.on("callAccepted", (signal) => {
-      setcallAccepted(true);
-      peer.signal(signal);
+    currentPeerConn.current = peer;
+  };
+
+  const AnswerCall = () => {
+    setcallAccepted(true);
+    const peer = new Peer({ initiator: false, trickle: false, stream: Streams });
+
+    peer.on("signal", (data) => {
+      socket.emit("answerCall", { signal: data, to: call.from });
+    });
+
+    peer.signal(call.signalData);
+
+    peer.on("stream", (currentStram) => {
+      userVideo.current.srcObject = currentStram;
     });
 
     currentPeerConn.current = peer;
