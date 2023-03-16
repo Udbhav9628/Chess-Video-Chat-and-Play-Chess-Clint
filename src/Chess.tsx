@@ -4,44 +4,42 @@ import { useState } from 'react'
 import Chessboard from "chessboardjsx";
 
 const ChessboardComp = () => {
-    const [chess] = useState<any>(
-        new Chess()
-    );
+    const [chess] = useState<any>(new Chess());
 
     const [fen, setFen] = useState(chess.fen());
 
-    const handleMove = (move: any) => {
-        if (chess.move(move)) {
-            setTimeout(() => {
-                const moves = chess.moves();
+    const handleMove = (move: object) => {
+        try {
+            if (chess.move(move)) {
+                // setTimeout(() => {
+                //     const moves = chess.moves();
 
-                if (moves.length > 0) {
-                    const computerMove = moves[Math.floor(Math.random() * moves.length)];
-                    chess.move(computerMove);
-                    setFen(chess.fen());
-                }
-            }, 300);
+                //     if (moves.length > 0) {
+                //         const computerMove = moves[Math.floor(Math.random() * moves.length)];
+                //         chess.move(computerMove);
+                //         setFen(chess.fen());
+                //     }
+                // }, 300);
 
-            setFen(chess.fen());
+                setFen(chess.fen());
+            }
+        } catch (error) {
+            alert("Invalid Move")
         }
     };
 
     return (
         <div className='Container'>
-            <h1>Chess Game</h1>
-            <Chessboard
-                width={400}
-                position={fen}
-                onDrop={(move) =>
-                    handleMove({
-                        from: move.sourceSquare,
-                        to: move.targetSquare,
-                        promotion: "q",
-                    })
-                }
+            <Chessboard width={400} position={fen} onDrop={(move) => {
+                handleMove({
+                    from: move.sourceSquare,
+                    to: move.targetSquare,
+                    promotion: "q",
+                })
+            }}
             />
         </div>
     )
 }
 
-export default ChessboardComp
+export default ChessboardComp;
