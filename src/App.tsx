@@ -7,37 +7,13 @@ import { makeStyles } from "@material-ui/core";
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
+const socket = io("http://13.127.223.172:8000");
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    borderRadius: 15,
-    margin: '30px 100px',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '600px',
-    border: '2px solid black',
-
-    [theme.breakpoints.down('xs')]: {
-      width: '90%',
-    },
-  },
-  image: {
-    marginLeft: '15px',
-  },
-  wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-  },
-}))
-
-const socket = io("http://192.168.113.232:8000");
-
-function App() {
+const App = () => {
+  //***********App*************/
   const classes = useStyles()
+
+  const [IdToCall, setIdToCall] = useState('')
 
   const [Streams, setStreams] = useState<MediaStream>();
   const [Me, setMe] = useState();
@@ -45,10 +21,18 @@ function App() {
   const [call, setcall] = useState({ isRecivingCall: false, from: "", name: "", signalData: "", });
   const [callAccepted, setcallAccepted] = useState(false);
   const [callEnded, setcallEnded] = useState(false);
+  const [NewMove, setNewMove] = useState(null)
 
   const Video: any = useRef("");
   const userVideo: any = useRef("");
   const currentPeerConn: any = useRef("");
+
+  useEffect(() => {
+    console.log("Loging Call");
+    console.log(call);
+  }, [call])
+
+
 
   useEffect(() => {
 
@@ -64,6 +48,12 @@ function App() {
     socket.on("callUser", ({ from, name: callerName, signalData }) => {
       setcall({ isRecivingCall: true, from, name: callerName, signalData });
     });
+
+    socket.on('chessMove', (moveObj) => {
+      console.log('In Socket');
+      console.log(moveObj);
+      setNewMove(moveObj);
+    })
 
   }, []);
 
@@ -109,19 +99,52 @@ function App() {
     window.location.reload();
   };
 
+  //Sending ChessMoves
+  function sendChessMove(moveObj: Object) {
+    const opponentPlayer = call.isRecivingCall ? call.from : IdToCall;
+    console.log(opponentPlayer);
+    socket.emit("chessMove", { moveObj, towhom: opponentPlayer })
+  }
+
   return (
     <div className={classes.wrapper}>
       <AppBar className={classes.appBar} position='static' color='inherit'>
-        <Typography variant='h2' align='center'>
-          Video Chat
+        <Typography variant='h3' align='center'>
+          Chess
         </Typography>
       </AppBar>
-      <VideoPlayer name={name} Video={Video} call={call} userVideo={userVideo} Streams={Streams} callAccepted={callAccepted} callEnded={callEnded} />
-      <Options Me={Me} callAccepted={callAccepted} name={name} setname={setname} LeaveCall={LeaveCall} callUser={CallUser} callEnded={callEnded}>
+      <VideoPlayer name={name} Video={Video} call={call} userVideo={userVideo} Streams={Streams} callAccepted={callAccepted} callEnded={callEnded} sendChessMove={sendChessMove} NewMove={NewMove} />
+      <Options Me={Me} callAccepted={callAccepted} name={name} setname={setname} LeaveCall={LeaveCall} callUser={CallUser} callEnded={callEnded} IdToCall={IdToCall} setIdToCall={setIdToCall}>
         <Notifications AnswerCall={AnswerCall} call={call} callAccepted={callAccepted} />
       </Options>
     </div>
-  );
+  )
 }
 
 export default App;
+
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    borderRadius: 15,
+    margin: '30px 100px',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '600px',
+    border: '2px solid black',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '90%',
+    },
+  },
+  image: {
+    marginLeft: '15px',
+  },
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+  },
+}))

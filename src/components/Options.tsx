@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
 import { Button, TextField, Typography, Grid, Container, Paper, makeStyles } from "@material-ui/core";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Assignment, Phone, PhoneDisabled } from "@material-ui/icons";
 
-const Options = ({ children, Me, callAccepted, name, setname, LeaveCall, callUser, callEnded }: { children: JSX.Element; Me: any; callAccepted: Boolean; name: String, setname: Function; LeaveCall: any; callUser: any; callEnded: any }) => {
-    const [IdToCall, setIdToCall] = useState('')
+const Options = ({ children, Me, callAccepted, name, setname, LeaveCall, callUser, callEnded, IdToCall, setIdToCall }: { children: JSX.Element; Me: any; callAccepted: Boolean; name: String, setname: Function; LeaveCall: any; callUser: any; callEnded: any; IdToCall: string; setIdToCall: Function }) => {
     const classes = useStyles();
     return (
         <Container className={classes.container}>
