@@ -1,9 +1,9 @@
 import { Grid, Typography, Paper, makeStyles } from "@material-ui/core";
 import { Chess } from "chess.js";
 import Chessboard from "chessboardjsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function VideoPlayer({ name, Video, call, userVideo, Streams, callEnded, callAccepted, sendChessMove, NewMove }: { name: string; Video: any; call: any; userVideo: any; Streams: any; callAccepted: Boolean; callEnded: Boolean; sendChessMove: Function; NewMove: any }) {
+function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAccepted, sendChessMove, NewMove }: { name: string; Webcam: any; call: any; userVideo: any; Streams: any; callAccepted: Boolean; callEnded: Boolean; sendChessMove: Function; NewMove: any }) {
     const classes = useStyles();
 
     const [chess] = useState<any>(new Chess());
@@ -39,14 +39,14 @@ function VideoPlayer({ name, Video, call, userVideo, Streams, callEnded, callAcc
             alert("Invalid Move")
         }
     };
-
+    const video = useRef(null)
     return (
         <Grid container className={classes.gridContainer}>
             {/* our Video */}
             {Streams && (<Paper className={classes.paper}>
                 <Grid item xs={2} md={1}>
                     <Typography variant="h5" gutterBottom>{name || "Name"}</Typography>
-                    <video playsInline muted autoPlay className={classes.video} ref={Video} />
+                    <Webcam ref={video} width={480} height={300} />
                 </Grid>
             </Paper>)}
             {/* Chess Board */}

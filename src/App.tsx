@@ -7,11 +7,12 @@ import { makeStyles } from "@material-ui/core";
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import Peer from "simple-peer";
-const socket = io("http://13.127.223.172:8000");
+import Webcam from "react-webcam";
+const socket = io("https://13.233.65.153");
 
 const App = () => {
   //***********App*************/
-  const classes = useStyles()
+  const classes = useStyles();
 
   const [IdToCall, setIdToCall] = useState('')
 
@@ -23,7 +24,7 @@ const App = () => {
   const [callEnded, setcallEnded] = useState(false);
   const [NewMove, setNewMove] = useState(null)
 
-  const Video: any = useRef("");
+  const Video: any = useRef({});
   const userVideo: any = useRef("");
   const currentPeerConn: any = useRef("");
 
@@ -40,7 +41,7 @@ const App = () => {
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStreams(currentStream);
-        Video.current.srcObject = currentStream;
+        // Video.current.srcObject = currentStream;
       });
 
     socket.on("me", (id) => setMe(id));
@@ -113,7 +114,7 @@ const App = () => {
           Chess
         </Typography>
       </AppBar>
-      <VideoPlayer name={name} Video={Video} call={call} userVideo={userVideo} Streams={Streams} callAccepted={callAccepted} callEnded={callEnded} sendChessMove={sendChessMove} NewMove={NewMove} />
+      <VideoPlayer name={name} Webcam={Webcam} call={call} userVideo={userVideo} Streams={Streams} callAccepted={callAccepted} callEnded={callEnded} sendChessMove={sendChessMove} NewMove={NewMove} />
       <Options Me={Me} callAccepted={callAccepted} name={name} setname={setname} LeaveCall={LeaveCall} callUser={CallUser} callEnded={callEnded} IdToCall={IdToCall} setIdToCall={setIdToCall}>
         <Notifications AnswerCall={AnswerCall} call={call} callAccepted={callAccepted} />
       </Options>

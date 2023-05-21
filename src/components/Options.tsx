@@ -21,14 +21,14 @@ const Options = ({ children, Me, callAccepted, name, setname, LeaveCall, callUse
                         {/* ******************** */}
                         <Grid item xs={12} md={6} className={classes.padding}>
                             <Typography gutterBottom variant='h6'>
-                                Make a Call
+                                Connect to User
                             </Typography>
-                            <TextField className={classes.margin} fullWidth label='Id_To_Call' value={IdToCall} onChange={(e) => { setIdToCall(e.target.value) }} />
+                            <TextField className={classes.margin} fullWidth label='Id_To_Connect' value={IdToCall} onChange={(e) => { setIdToCall(e.target.value) }} />
                             {callAccepted && !callEnded ? (
                                 <Button className={classes.margin} onClick={LeaveCall} variant='contained' color='secondary' fullWidth startIcon={<PhoneDisabled fontSize='large' />}>Hand Up</Button>
                             ) : (<Button className={classes.margin} onClick={() => {
                                 callUser(IdToCall)
-                            }} variant='contained' color='primary' fullWidth startIcon={<Phone fontSize='large' />}>Call</Button>)}
+                            }} variant='contained' color='primary' fullWidth startIcon={<Phone fontSize='large' />}>Connect</Button>)}
                         </Grid>
                     </Grid>
                 </form>
