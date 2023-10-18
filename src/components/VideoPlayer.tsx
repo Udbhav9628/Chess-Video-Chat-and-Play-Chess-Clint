@@ -1,4 +1,4 @@
-import { Grid, Typography, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { Chess } from "chess.js";
 import Chessboard from "chessboardjsx";
 import { useEffect, useRef, useState } from "react";
@@ -40,17 +40,22 @@ function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAc
         }
     };
     const video = useRef(null)
+
+
+    const handleVideoError = () => {
+        alert('Error In Video')
+    }
+
     return (
         <Grid container className={classes.gridContainer}>
             {/* our Video */}
             {Streams && (<Paper className={classes.paper}>
-                <Grid item xs={2} md={1}>
-                    <Typography variant="h5" gutterBottom>{name || "Name"}</Typography>
-                    <Webcam ref={video} width={480} height={300} />
+                <Grid>
+                    <Webcam ref={video} width={200} height={200} />
                 </Grid>
             </Paper>)}
             {/* Chess Board */}
-            <Chessboard width={600} position={fen} onDrop={(move) => {
+            <Chessboard width={300} position={fen} onDrop={(move) => {
                 handleMove({
                     from: move.sourceSquare,
                     to: move.targetSquare,
@@ -59,12 +64,15 @@ function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAc
             }}
             />
             {/* User Video */}
-            {callAccepted && !callEnded && (<Paper className={classes.paper}>
-                <Grid item xs={12} md={6}>
-                    <Typography variant="h5" gutterBottom>{call.name || "User Video"}</Typography>
-                    <video playsInline autoPlay className={classes.video} ref={userVideo} />
+            <Paper className={classes.paper2}>
+                <Grid>
+                    {callAccepted && !callEnded ? (<video playsInline autoPlay className={classes.video} ref={userVideo} onError={handleVideoError} />) : (<div>
+                        <h5>
+                            Waithing For Opponent To Connect
+                        </h5>
+                    </div>)}
                 </Grid>
-            </Paper>)}
+            </Paper>
         </Grid>
     )
 }
@@ -73,20 +81,40 @@ export default VideoPlayer;
 
 const useStyles = makeStyles((theme) => ({
     video: {
-        width: '700px',
+        width: '200px',
+        height: '180px',
         [theme.breakpoints.down('xs')]: {
-            width: '300px',
+            width: '150px',
+            height: '150px',
         },
     },
     gridContainer: {
         justifyContent: 'center',
+        alignItems: 'center',
         [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
         },
     },
     paper: {
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: '10px',
         border: '2px solid black',
         margin: '10px',
+        width: '200px',
+        height: '180px',
+    },
+    paper2: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '10px',
+        border: '2px solid black',
+        margin: '10px',
+        width: '200px',
+        height: '180px',
+        [theme.breakpoints.down('xs')]: {
+            width: '150px',
+            height: '150px',
+        },
     },
 }));

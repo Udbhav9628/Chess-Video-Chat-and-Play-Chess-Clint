@@ -1,0 +1,117 @@
+* {
+  margin: 0%;
+  padding: 0%;
+  list-style-type: none;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  background: url("./img//bg.jpeg");
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.heroContainer {
+  height: 100vh;
+  width: 100vw;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainContent {
+  display: flex;
+  width: 80%;
+  justify-content: space-between;
+}
+
+#LineImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#h1Hero {
+  font-size: 2rem;
+}
+
+#mainContentLeft {
+  flex: 1;
+  gap: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#mainContentRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  position: relative;
+  height: 90%;
+}
+
+#Modal {
+  object-fit: contain;
+  position: absolute;
+  top: 0%;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+  margin: auto;
+  animation: modal 2s infinite ease alternate;
+}
+
+.playButton {
+  width: 90px;
+  height: 35px;
+  padding: 1px;
+  color: white;
+  background-color: #da4ea2;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@keyframes modal {
+  to {
+    transform: translateY(20px);
+  }
+}
+
+@media (max-width: 1094px) {
+  .mainContent{
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #mainContentRight{
+    width: 100%;
+  }
+
+  #mainContentLeft{
+    justify-content: center;
+    align-items: center;
+  }
+
+  #Modal{
+    width: 300px;
+  }
+}
