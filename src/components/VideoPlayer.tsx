@@ -1,5 +1,6 @@
 import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { Chess } from "chess.js";
+import { ToastContainer, toast } from 'react-toastify';
 import Chessboard from "chessboardjsx";
 import { useEffect, useRef, useState } from "react";
 
@@ -22,7 +23,7 @@ function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAc
                     setFen(chess.fen());
                 }
             } catch (error) {
-                alert("Invalid Move")
+                toast('Invalid Move')
             }
         }
         // eslint-disable-next-line
@@ -36,14 +37,14 @@ function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAc
                 sendChessMove(move)
             }
         } catch (error) {
-            alert("Invalid Move")
+            toast('Invalid Move')
         }
     };
     const video = useRef(null)
 
 
     const handleVideoError = () => {
-        alert('Error In Video')
+        toast('Error In Video')
     }
 
     return (
@@ -51,7 +52,7 @@ function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAc
             {/* our Video */}
             {Streams && (<Paper className={classes.paper}>
                 <Grid>
-                    <Webcam ref={video} width={200} height={200} />
+                    <Webcam className={classes.video} ref={video} />
                 </Grid>
             </Paper>)}
             {/* Chess Board */}
@@ -64,7 +65,7 @@ function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAc
             }}
             />
             {/* User Video */}
-            <Paper className={classes.paper2}>
+            <Paper className={classes.paper}>
                 <Grid>
                     {callAccepted && !callEnded ? (<video playsInline autoPlay className={classes.video} ref={userVideo} onError={handleVideoError} />) : (<div>
                         <h5>
@@ -73,6 +74,7 @@ function VideoPlayer({ name, Webcam, call, userVideo, Streams, callEnded, callAc
                     </div>)}
                 </Grid>
             </Paper>
+            <ToastContainer />
         </Grid>
     )
 }
@@ -98,17 +100,8 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '10px',
-        border: '2px solid black',
-        margin: '10px',
-        width: '200px',
-        height: '180px',
-    },
-    paper2: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '10px',
-        border: '2px solid black',
+        padding: '5px',
+        border: '5px solid black',
         margin: '10px',
         width: '200px',
         height: '180px',
