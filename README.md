@@ -24,4 +24,5 @@ Check out the live demo [![Website](https://img.shields.io/badge/Website-Live-re
 **Backend:** Node.js, Socket.io, WebRTC
 
 **Frontend Hosted On:** Vercel
+
 **Server Hosted On:** AWS EC2
