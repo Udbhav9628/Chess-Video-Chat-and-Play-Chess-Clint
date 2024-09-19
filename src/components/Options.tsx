@@ -18,7 +18,7 @@ const Options = ({ children, Me, callAccepted, name, setname, LeaveCall, callUse
                     {callAccepted && !callEnded ? (
                         <Container className={classes.container}>
                             <Paper elevation={10} className={classes.paper}>
-                                <a href='/'> <Button onClick={LeaveCall} variant='contained' color='secondary' fullWidth startIcon={<PhoneDisabled fontSize='large' />}>Hand Up</Button> </a>
+                                <a href='/'> <Button onClick={LeaveCall} variant='contained' color='secondary' fullWidth startIcon={<PhoneDisabled fontSize='large' />}>Hang Up</Button> </a>
                             </Paper>
                         </Container>
                     ) : (<Container className={classes.container}>

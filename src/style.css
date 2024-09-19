@@ -94,7 +94,7 @@
 }
 
 @media (max-width: 1094px) {
-  .mainContent{
+  .mainContent {
     flex-direction: column;
     height: 100%;
     width: 100%;
@@ -102,16 +102,16 @@
     justify-content: center;
   }
 
-  #mainContentRight{
+  #mainContentRight {
     width: 100%;
   }
 
-  #mainContentLeft{
+  #mainContentLeft {
     justify-content: center;
     align-items: center;
   }
 
-  #Modal{
+  #Modal {
     width: 300px;
   }
 }

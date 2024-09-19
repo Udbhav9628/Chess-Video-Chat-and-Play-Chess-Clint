@@ -46,7 +46,7 @@ const ChessPage = () => {
 	const [socket, setSocket] = useState<any>(null); // State to hold the socket instance
 
 	useEffect(() => {
-		const socketInstance = io('http://10.10.0.67:8000');
+		const socketInstance = io('https://98.82.171.134');
 		setSocket(socketInstance);
 		return () => {
 			if (socketInstance) {
@@ -183,9 +183,7 @@ const ChessPage = () => {
 		<div className='Container'>
 			<div className={classes.wrapper}>
 				<AppBar className={classes.appBar} position='static' color='inherit'>
-					<Typography variant='h3' align='center'>
-						TeleChess
-					</Typography>
+
 				</AppBar>
 				<VideoPlayer
 					name={name}
